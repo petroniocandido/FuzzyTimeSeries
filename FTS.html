@@ -204,14 +204,29 @@ div#notebook {
 </ol>
 </li>
 <li><a href="#First-Order-Fuzzy-Time-Series">First Order Fuzzy Time Series</a><ol>
-<li><a href="#Fuzzy-Logical-Relationship-Groups---FLRG">Fuzzy Logical Relationship Groups - FLRG</a></li>
-<li><a href="#Classe-Princial---FTS">Classe Princial - FTS</a></li>
-<li><a href="#Testes">Testes</a></li>
+<li><a href="#FTS---Código-Fonte">FTS - Código Fonte</a></li>
+<li><a href="#FTS---Experimento-com-o-dataset-Enrollments">FTS - Experimento com o dataset Enrollments</a></li>
+<li><a href="#FTS---Experimento-com-o-dataset-TAIEX">FTS - Experimento com o dataset TAIEX</a></li>
 </ol>
 </li>
-<li><a href="#Weighted-Fuzzy-Time-Series">Weighted Fuzzy Time Series</a></li>
-<li><a href="#Improved-Weighted-Fuzzy-Time-Series">Improved Weighted Fuzzy Time Series</a></li>
-<li><a href="#Exponentially-Weighted-Fuzzy-Time-Series">Exponentially Weighted Fuzzy Time Series</a></li>
+<li><a href="#Weighted-Fuzzy-Time-Series">Weighted Fuzzy Time Series</a><ol>
+<li><a href="#WFTS---Código-Fonte">WFTS - Código Fonte</a></li>
+<li><a href="#WFTS---Experimento-com-o-dataset-Enrollments">WFTS - Experimento com o dataset Enrollments</a></li>
+<li><a href="#WFTS---Experimento-com-o-dataset-TAIEX">WFTS - Experimento com o dataset TAIEX</a></li>
+</ol>
+</li>
+<li><a href="#Improved-Weighted-Fuzzy-Time-Series">Improved Weighted Fuzzy Time Series</a><ol>
+<li><a href="#IWFTS---Código-Fonte">IWFTS - Código Fonte</a></li>
+<li><a href="#IWFTS---Experimento-com-o-dataset-Enrollments">IWFTS - Experimento com o dataset Enrollments</a></li>
+<li><a href="#IWFTS---Experimento-com-o-dataset-TAIEX">IWFTS - Experimento com o dataset TAIEX</a></li>
+</ol>
+</li>
+<li><a href="#Exponentially-Weighted-Fuzzy-Time-Series">Exponentially Weighted Fuzzy Time Series</a><ol>
+<li><a href="#EWFTS---Código-Fonte">EWFTS - Código Fonte</a></li>
+<li><a href="#EWFTS---Experimento-com-o-dataset-Enrollments">EWFTS - Experimento com o dataset Enrollments</a></li>
+<li><a href="#EWFTS---Experimento-com-o-dataset-TAIEX">EWFTS - Experimento com o dataset TAIEX</a></li>
+</ol>
+</li>
 <li><a href="#High-Order-Fuzzy-Time-Series">High Order Fuzzy Time Series</a></li>
 <li><a href="">Comparação entre os modelos</a></li>
 <li><a href="#References">Referências</a></li>
@@ -1026,6 +1041,50 @@ A9: &lt;function trimf at 0xaafcb7c4&gt;([18080.600000000006, 18708.800000000007
 </div>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[291]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="k">def</span> <span class="nf">SelecaoSimples_MenorRMSE</span><span class="p">(</span><span class="n">original</span><span class="p">,</span><span class="n">parameters</span><span class="p">,</span><span class="n">modelo</span><span class="p">):</span>
+	<span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+	<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s">&quot;Comparação de modelos &quot;</span><span class="p">)</span>
+	<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+	<span class="n">ax0</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+	<span class="n">ax0</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">&#39;Série Temporal&#39;</span><span class="p">)</span>
+	<span class="n">ax0</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">&#39;F(T)&#39;</span><span class="p">)</span>
+	<span class="n">ax0</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">&#39;T&#39;</span><span class="p">)</span>
+	<span class="n">ax0</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">original</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;Original&quot;</span><span class="p">)</span>
+	<span class="n">min_rmse</span> <span class="o">=</span> <span class="mf">1000.0</span>
+	<span class="n">best</span> <span class="o">=</span> <span class="n">modelo</span><span class="p">()</span>
+	<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">parameters</span><span class="p">:</span>
+		<span class="n">sets</span> <span class="o">=</span> <span class="n">GridPartitionerTrimf</span><span class="p">(</span><span class="n">original</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+		<span class="n">fts</span> <span class="o">=</span> <span class="n">modelo</span><span class="p">()</span>
+		<span class="n">fts</span><span class="o">.</span><span class="n">learn</span><span class="p">(</span><span class="n">original</span><span class="p">,</span><span class="n">sets</span><span class="p">)</span>
+		<span class="n">predicted</span> <span class="o">=</span> <span class="p">[</span><span class="n">fts</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">xx</span><span class="p">)</span> <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">original</span><span class="p">]</span>
+		<span class="n">ax0</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">predicted</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+		<span class="n">error</span> <span class="o">=</span> <span class="n">rmse</span><span class="p">(</span><span class="n">original</span><span class="p">,</span><span class="n">predicted</span><span class="p">)</span>
+		<span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">error</span> <span class="o">&lt;</span> <span class="n">min_rmse</span><span class="p">:</span>
+			<span class="n">min_rmse</span> <span class="o">=</span> <span class="n">error</span>
+			<span class="n">best</span> <span class="o">=</span> <span class="n">fts</span>
+	<span class="n">handles0</span><span class="p">,</span> <span class="n">labels0</span> <span class="o">=</span> <span class="n">ax0</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+	<span class="n">ax0</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles0</span><span class="p">,</span> <span class="n">labels0</span><span class="p">)</span>
+	<span class="n">ax1</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+	<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">&#39;Comparação dos Erros Quadráticos Médios&#39;</span><span class="p">)</span>
+	<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">&#39;RMSE&#39;</span><span class="p">)</span>
+	<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">&#39;Quantidade de Partições&#39;</span><span class="p">)</span>
+	<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="nb">min</span><span class="p">(</span><span class="n">parameters</span><span class="p">),</span><span class="nb">max</span><span class="p">(</span><span class="n">parameters</span><span class="p">)])</span>
+	<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span><span class="n">errors</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">best</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -1041,7 +1100,7 @@ A9: &lt;function trimf at 0xaafcb7c4&gt;([18080.600000000006, 18708.800000000007
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Fuzzy-Logical-Relationship-Groups---FLRG">Fuzzy Logical Relationship Groups - FLRG<a class="anchor-link" href="#Fuzzy-Logical-Relationship-Groups---FLRG">&#182;</a></h2>
+<h2 id="FTS---C&#243;digo-Fonte">FTS - C&#243;digo Fonte<a class="anchor-link" href="#FTS---C&#243;digo-Fonte">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -1103,15 +1162,6 @@ A9: &lt;function trimf at 0xaafcb7c4&gt;([18080.600000000006, 18708.800000000007
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Classe-Principal---FTS">Classe Principal - FTS<a class="anchor-link" href="#Classe-Principal---FTS">&#182;</a></h2>
-</div>
-</div>
-</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[189]:</div>
@@ -1172,60 +1222,16 @@ A9: &lt;function trimf at 0xaafcb7c4&gt;([18080.600000000006, 18708.800000000007
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Testes">Testes<a class="anchor-link" href="#Testes">&#182;</a></h2>
+<h2 id="FTS---Experimento-com-o-dataset-Enrollments">FTS - Experimento com o dataset Enrollments<a class="anchor-link" href="#FTS---Experimento-com-o-dataset-Enrollments">&#182;</a></h2>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[190]:</div>
+<div class="prompt input_prompt">In&nbsp;[295]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="k">def</span> <span class="nf">SelecaoSimples_MenorRMSE</span><span class="p">(</span><span class="n">original</span><span class="p">,</span><span class="n">parameters</span><span class="p">,</span><span class="n">modelo</span><span class="p">):</span>
-	<span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
-	<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
-	<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s">&quot;Comparação de modelos &quot;</span><span class="p">)</span>
-	<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-	<span class="n">ax0</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-	<span class="n">ax0</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">&#39;Série Temporal&#39;</span><span class="p">)</span>
-	<span class="n">ax0</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">&#39;F(T)&#39;</span><span class="p">)</span>
-	<span class="n">ax0</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">&#39;T&#39;</span><span class="p">)</span>
-	<span class="n">ax0</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">original</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;Original&quot;</span><span class="p">)</span>
-	<span class="n">min_rmse</span> <span class="o">=</span> <span class="mf">1000.0</span>
-	<span class="n">best</span> <span class="o">=</span> <span class="n">modelo</span><span class="p">()</span>
-	<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">parameters</span><span class="p">:</span>
-		<span class="n">sets</span> <span class="o">=</span> <span class="n">GridPartitionerTrimf</span><span class="p">(</span><span class="n">original</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
-		<span class="n">fts</span> <span class="o">=</span> <span class="n">modelo</span><span class="p">()</span>
-		<span class="n">fts</span><span class="o">.</span><span class="n">learn</span><span class="p">(</span><span class="n">original</span><span class="p">,</span><span class="n">sets</span><span class="p">)</span>
-		<span class="n">predicted</span> <span class="o">=</span> <span class="p">[</span><span class="n">fts</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">xx</span><span class="p">)</span> <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">original</span><span class="p">]</span>
-		<span class="n">ax0</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">predicted</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
-		<span class="n">error</span> <span class="o">=</span> <span class="n">rmse</span><span class="p">(</span><span class="n">original</span><span class="p">,</span><span class="n">predicted</span><span class="p">)</span>
-		<span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
-		<span class="k">if</span> <span class="n">error</span> <span class="o">&lt;</span> <span class="n">min_rmse</span><span class="p">:</span>
-			<span class="n">min_rmse</span> <span class="o">=</span> <span class="n">error</span>
-			<span class="n">best</span> <span class="o">=</span> <span class="n">fts</span>
-	<span class="n">handles0</span><span class="p">,</span> <span class="n">labels0</span> <span class="o">=</span> <span class="n">ax0</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
-	<span class="n">ax0</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles0</span><span class="p">,</span> <span class="n">labels0</span><span class="p">)</span>
-	<span class="n">ax1</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-	<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">&#39;Comparação dos Erros Quadráticos Médios&#39;</span><span class="p">)</span>
-	<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">&#39;RMSE&#39;</span><span class="p">)</span>
-	<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">&#39;Quantidade de Partições&#39;</span><span class="p">)</span>
-	<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="nb">min</span><span class="p">(</span><span class="n">parameters</span><span class="p">),</span><span class="nb">max</span><span class="p">(</span><span class="n">parameters</span><span class="p">)])</span>
-	<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span><span class="n">errors</span><span class="p">)</span>
-	<span class="k">return</span> <span class="n">best</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[191]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="n">best</span> <span class="o">=</span> <span class="n">SelecaoSimples_MenorRMSE</span><span class="p">(</span><span class="n">enrollments</span><span class="p">[</span><span class="s">&quot;Enrollments&quot;</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">12</span><span class="p">],</span><span class="n">FirstOrderFTS</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span class="n">fts1</span> <span class="o">=</span> <span class="n">SelecaoSimples_MenorRMSE</span><span class="p">(</span><span class="n">enrollments</span><span class="p">[</span><span class="s">&quot;Enrollments&quot;</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">12</span><span class="p">],</span><span class="n">FirstOrderFTS</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -2131,10 +2137,10 @@ nSUCAAAAAElFTkSuQmCC
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[192]:</div>
+<div class="prompt input_prompt">In&nbsp;[296]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="nb">print</span><span class="p">(</span><span class="n">best</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span class="nb">print</span><span class="p">(</span><span class="n">fts1</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -2166,10 +2172,522 @@ A1 -&gt; A2,A7,A1
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[193]:</div>
+<div class="prompt input_prompt">In&nbsp;[297]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="n">best2</span><span class="o">=</span> <span class="n">SelecaoSimples_MenorRMSE</span><span class="p">(</span><span class="n">taiexsample</span><span class="p">,[</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">35</span><span class="p">],</span><span class="n">FirstOrderFTS</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span class="n">fts1p</span> <span class="o">=</span> <span class="n">fts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">enrollments</span><span class="p">[</span><span class="s">&quot;Enrollments&quot;</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABJIAAAFwCAYAAADjWVExAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
+AAALEgAACxIB0t1+/AAAIABJREFUeJzs3Xmcj+X+x/HXZZckWqRFZakoFbK0KyWdE9qEtCEqpL3o
+tGiv015osUXLaFFZIopGGxEp6qhUhEQpZMvg+v3xHX5kG2NmvrO8no/HPOae677u+/v+dpo5zWeu
+63OHGCOSJEmSJEnS9hRKdgBJkiRJkiTlDRaSJEmSJEmSlCEWkiRJkiRJkpQhFpIkSZIkSZKUIRaS
+JEmSJEmSlCEWkiRJkiRJkpQh2ywkhRAOCCF8EEL4OoQwPYTQJX28XAjhvRDCdyGE0SGE3Te6plsI
+4fsQwowQQqONxmuHEKaln3tyo/HiIYRX08cnhBAOzI43KkmSJEmSpJ2zvRVJacB1McbDgfpApxBC
+NaAr8F6M8RBgTPrXhBCqAy2A6kBjoFcIIaTf6xmgXYyxKlA1hNA4fbwdsCh9/HHgoSx7d5IkSZIk
+Scoy2ywkxRh/jTFOTT9eBvwP2A9oCgxInzYAODv9uBmQEmNMizHOAmYC9UIIFYDSMcaJ6fMGbnTN
+xvcaDDTc2TclSZIkSZKkrJfhHkkhhIOAmsBnQPkY44L0UwuA8unH+wJzN7psLonC0z/H56WPk/55
+DkCMcQ2wJIRQbkfehCRJkiRJkrJfhgpJIYRdSawWuibG+NfG52KMEYjZkE2SJEmSJEm5SJHtTQgh
+FCVRRHoxxvh2+vCCEMI+McZf07etLUwfnwccsNHl+5NYiTQv/fif4+uvqQj8EkIoApSJMf6xhRwW
+qyRJkiRJkrJYjDFsf1bCNgtJ6Y2y+wLfxBif2OjUUOBSEo2xLwXe3mj8lRDCYyS2rFUFJsYYYwhh
+aQihHjARuBh46h/3mgCcT6J599beWEbfl6Qs0r17d7p3757sGFKB4/eelBx+70nJ4feelDz//4y0
+jNneiqTjgYuAr0IIX6SPdQMeBF4LIbQDZgEXAMQYvwkhvAZ8A6wBOsb/r/50BF4ASgIjYozvpo/3
+BV4MIXwPLAJa7tA7kCRJkiRJUo7YZiEpxvgxW++jdNpWrrkfuH8L45OBGlsY/5v0QpQkSZIkSZJy
+rww/tU1SwdSgQYNkR5AKJL/3pOTwe09KDr/3pLwj5JW+QyGEmFeySpIkSZIk5QUhhB1qtu2KJEmS
+JEmSJGWIhSRJkiRJkiRliIUkSZIkSZIkZYiFJEmSJEmSJGWIhSRJkiRJkiRliIUkSZIkSZIkZYiF
+JEmSJEmSJGWIhSRJkiRJkiRliIUkSZIkSZIkZYiFJEmSJEmSJGWIhSRJkiRJkiRliIUkSZIkSZIk
+ZYiFJEmSJEmSJGWIhSRJkiRJkiRliIUkSZIkSZIkZYiFJEmSJEmSJGWIhSRJkiRJkiRliIUkSZIk
+SZIkZYiFJEmSJEmSJGWIhSRJkiRJkiRliIUkSZIkSZIkZYiFJEmSJEmSJGWIhSRJkiRJkiRliIUk
+SZIkSZIkZYiFJEmSJEmSJGVIkWQHkCRJkiRljbQ0GDMGFiyAdetg7drE542Pd/RzTlxTpgx06QL/
+/jeEkOx/ipK2JcQYk50hQ0IIMa9klSRJkqScNGMG9OsHAwdCpUpQpQoUKgSFC+/c56y4R0bu+dNP
+8MADUKwY3HEHNGliQUnKKSEEYowZ/o6zkCRJkiRJedBff8Frr0HfvolCzKWXQps2cOihyU6WOevW
+wZAhcPfdia9vvx3OPjtRaJKUfSwkSZIkSVI+FSN8/HFi9dHbb0ODBtCuHTRuDEXySeOSGGHYsERB
+afXqREHpvPMsKEnZxUKSJEmSJOUzv/wCAwZA//6JglG7dnDRRVC+fLKTZZ8YYcQIuOsuWL48UVBq
+3jyxHU5S1rGQJEmSJEn5wOrVMHx4YvXRp5/C+edD27ZQr17B6h8UI4walSgoLV4Mt90GLVrknxVY
+UrJZSJIkSZKkPGz69ETx6KWXoHr1RPHovPOgVKlkJ0uuGOH99xMFpYULEwWlCy+0oCTtLAtJkiRJ
+kpTHLFkCgwYlCkhz58JllyUaZ1epkuxkuU+MkJqaKCjNnQv/+U9im1/RoslOJuVNFpIkSZIkKQ9Y
+tw7GjUsUj4YNg9NPT6w+atTIPkAZNW5coin3Tz/BrbfCJZdAsWLJTiXlLRaSJEmSJCkXmzPn/xtn
+77LL/zfO3nPPZCfLuz7+OFFQ+u476NYtsaKrePFkp5LyBgtJkiRJkpTL/P03DBmSWH00aVKiWXTb
+tlC7dsFqnJ3dxo9PFJSmT4euXRNFuhIlkp1Kyt0sJEmSJElSLvHll4ni0SuvwJFHJopH55yTWImk
+7DNxYqKgNHUq3HILXH45lCyZ7FRS7rSjhaRCGbhhvxDCghDCtI3GjgohjA8hfBVCGBpCKL3RuW4h
+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
+/n5z5iRT9AYNgpycpChr1y5Z98jFaCVlo2+/hX79klJp3rzkv//XXpuMElXRjR0Lv/gFPPggdOiQ
+dhpJkrKPRVIJizFyWp/T6HhiR66of0XacVRGxAiPPAIPPQQvv1y2tyjOz092WfphwfTpp8m76ZuO
+XDriCJgyJSmPvvoqKY3atYNWrXZ8VJMkZZKPP07WUnr++WQ06DXXwKWXwp57pp2sbOvfH7p0STam
+aNUq7TSSJGUni6QSNmzmMH415FdM7TiVihUcw65k5M8vfwmTJ8O//gU1a6adaPvECAsXfn+a3Oef
+J++sX3ABNG3qYtmStDV5ecmUt3/8I5kCd/bZySilM86AChXSTld2xAgPP5xMAX/jDWjQIO1EkiRl
+L4ukEhRj5ORnTqZrk65ccswlqWZR2TB/Plx4YbLA9HPPOUpHkrTRokXw0kvJ1LdFi5JpW9dck2yG
+kM3y8+HXv4Z33oG33052H5UkSenZ1iLJ98a2wVsz3mLV+lX8ou4v0o6iMmDCBGjcOFkctH9/SyRJ
+0vftuy/cfDNMmpTsarlyJTRpkkx/7tMn2XUz26xeDRdfDNOmwb//bYkkSVJ55IikIooxcuL/O5E/
+nvZHLqxzYWo5VDa8+CLceiv07p1M+5IkqSjWrYO33kqKpDFjknXnrrkmKZcyferbokVw7rnJiKxn
+noEqVdJOJEmSwBFJJWbwZ4OJMXLB0bYG2Sw/H37/+2Rr4nfesUSSJG2bypWT8mjwYPjsM6hfPxm1
+VLs23H13srFBJpo5E045BU4/Hfr2tUSSJKk8c0RSERTEAo5/6nj+fPqfOfeoc1PJoPQtWwZXXJFM
+TXj1Vbe8lyQVjxiT6W99+kC/fsnC09dcAxddBLvumna6HZeTA+efD926JZtTSJKkssURSSVgwCcD
+qFKxCucceU7aUZSSGTPg5JOTHdmGD7dEkiQVnxCgYUPo2RPmzUvKln79ko0c/ud/YNy4pGwqi2KE
+9eth1arkDZdFi5KNKGbPTkYhvfxysnNd796WSJIkZQpHJG1FfkE+9Z+sT4/WPWhbu22pv77SN3w4
+XHkl3HMP3HRT2mkkSdni66/h+eeTkUr5+ckopWOOgby8pLzZ3o/ifH5eHlSsCDvttPmPPfeEp55K
+NqeQJEll07aOSLJI2ooXp75Iz5yejLtuHCEU+X9XZYAY4W9/gwceSN5RbdYs7USSpGwUYzI97Lnn
+YO7cLZc2lSpt+b6f+tjR5/nrkSRJ5ZtFUjHKK8jjmMeP4fGfP07Lw1qW6msrXWvXJkPwJ01KFkSt
+VSvtRJIkSZIkFb9iXyMphPBsCGFhCGHqJse6hxDmhhAmF36ctcl9d4QQZoQQpocQWm9yvGEIYWrh
+fX/b5HiVEMLLhcffCyHULGr4kvbi1BfZv+r+nHHoGWlHUSlasCDZVWbFimRdCkskSZIkSZISRVls
+uw/ww8WBIvBwjPH4wo+3AUIIdYFLgbqFz3k8bJwP9gRwfYzxCOCIEMKG73k9sLjw+CPAAzv0ExWT
+9fnruXvM3dzT4h6ntGWRDz5I1nFo0wb694eqVdNOJEmSJElS2bHVIinGOBb4djN3ba5dOR94Kca4
+Psb4FZALnBRCOADYPcaYU/i4vkC7wtvnAc8V3h4AlIk5ZH2n9OXQvQ6lea3maUdRKXnpJWjbFh59
+NNmiuIJ7GkqSJEmS9D2VduC5N4cQrgYmAl1jjEuBA4H3NnnMXOAgYH3h7Q3mFR6n8PMcgBhjXghh
+WQihWoxxyQ5k2yHr8tdx7//dy4sXvZhWBJWi/Hy4885kq+URI6BBg7QTSZIkSZJUNm3vmIsngEOB
+44D5QI9iS1QGPDv5WepUr8MpB5+SdhSVsOXLoV07ePfdZEccSyRJkiRJkrZsu0YkxRi/2XA7hPA0
+8Hrhl/OAgzd5aA2SkUjzCm//8PiG5xwCfB1CqATsuaXRSN27d//udosWLWjRosX2xP9Ja/LW8Jex
+f2HAJQOK/XurbMnNhfPOgxYt4G9/S7YwliRJkiQpk40ePZrRo0dv9/NDjHHrDwqhFvB6jLFe4dcH
+xBjnF97+NdAoxnh54WLbLwKNSaasjQBqxxhjCOF94BYgB3gT+HuMcUgIoRNQL8bYMYRwGdAuxnjZ
+ZjLEomTdUY+9/xjDvhjG6+1f3/qDVW6NGAFXXAHdu0PHjmmnkSRJkiQpHSEEYoxF3mVsqyOSQggv
+Ac2BfUMIc4BuQIsQwnEku7d9CdwEEGP8JITQH/gEyAM6bdL+dAL+AewCvBVjHFJ4/BngnyGEGcBi
+4EclUmlZvX419//7ft68/M20IqiExQh//zvcf3+yK1tz11KXJEmSJKnIijQiqSwojRFJD7/7MP+e
+/W8GXjqwRF9H6Vi7Fjp1ggkTYPBgOPTQtBNJkiRJkpSuYh+RlC3+u+6/PDjuQYZfNTztKCoBCxbA
+RRfBfvvB+PFQtWraiSRJkiRJKn+2d9e2jNNrQi+a12pOvf3qpR1FxeyDD6BxY2jVCl591RJJkiRJ
+kqTt5YgkYMXaFfR4twejOoxKO4qKWb9+cPPN8OSTyYgkSZIkSZK0/SySgL+//3daHdaKutXrph1F
+xaSgAP70J3jxxWSHtgYN0k4kSZIkSVL5l/VF0tI1S3n0/UcZd924tKOomCxfDldeCcuWQU4OVK+e
+diJJkiRJkjJD1q+R9Oh7j3LOkedw5D5Hph1FxSA3F5o0gQMPhOHDLZEkSZIkSSpOWT0iacnqJfTM
+6UnODTlpR1ExGDkSLr8cuneHjh3TTiNJkiRJUubJ6iKpx/geXHD0BRy292FpR9EOiBEeewzuuw9e
+fhlatEg7kSRJkiRJmSlri6RFqxbx5AdPMunGSWlH0Q5YuxY6d4b334d334VDD007kSRJkiRJmStr
+i6QHxz3IpcdcSs29aqYdRdtp4UK46KJkHaTx42H33dNOJEmSJElSZsvKxbYXrlzI05Oe5g+n/SHt
+KNpO06ZB48bQsiUMGGCJJEmSJElSacjKEUkPjHuAq+pfRY09aqQdRdthzBi45BJ45JFkcW1JkiRJ
+klQ6sq5I+nrF1zw35TmmdZyWdhRth/79oUsX6NcPzjgj7TSSJEmSJGWXrCuS7h97P9cedy0H7H5A
+2lG0jR55BB5+GEaMgPr1004jSZIkSVL2yaoiafay2bw47UU+7fxp2lG0DQoK4Le/hSFDYNw4OOSQ
+tBNJkiRJkpSdsqpIum/sfdx4wo38bLefpR1FRbR2LVx9Ncyfn5RIe++ddiJJkiRJkrJX1hRJXy39
+ilc+eYXPu3yedhQV0dKl0K4dVK8Ow4bBzjunnUiSJEmSpOxWIe0ApeXeMffS6cRO7LPrPmlHURHM
+mQNNm8Jxx8HLL1siSZIkSZJUFmTFiKTcJbkM/mwwM26ekXYUFcHUqXD22XDrrfCb30AIaSeSJEmS
+JEmQJUXSPWPu4ZaTbmHvXVxgp6wbNQouvRT+9jdo3z7tNJIkSZIkaVMZXyRNXzSdIblDyL0lN+0o
+2op+/eCWW5KpbKefnnYaSZIkSZL0QxlfJN0z5h5+ffKv2aPKHmlH0U94+GF45BEYORLq1Us7jSRJ
+kiRJ2pyMLpKmfTONkV+OpPe5vdOOoi0oKICuXWH4cBg/Hg4+OO1EkiRJkiRpSzK6SLp7zN3cdspt
+VK1cNe0o2ow1a+Dqq2HhQhg7FvZ2CStJkiRJksq0CmkHKCkfLviQcbPH0alRp7SjaDO+/RbatElu
+Dx1qiSRJkiRJUnmQsUVS99Hd+d2pv2PXnXZNO4p+YM4caNoUTjghWWB7553TTiRJkiRJkooiI4uk
+iV9PZOLXE7mx4Y1pR9EPfPQRnHIKXH99srh2hYz8FyhJkiRJUmbKyDWSuo3uxh1N72CXnXZJO4o2
+8c47cNll8Pe/J58lSZIkSVL5knFF0ntz32PqwqkMvGRg2lG0iZdegltvhf79oUWLtNNIkiRJkqTt
+kXFF0l2j7uLOZndSpVKVtKMIiBF69EhGIY0cCfXqpZ1IkiRJkiRtr4wqksbOGkvuklyuPe7atKMI
+yM+H3/wmmdI2fjzUqJF2IkmSJEmStCMyqki6a/Rd/KnZn9ip4k5pR8l6a9bAVVfBf/4DY8fCXnul
+nUiSJEmSJO2ojNkza9SXo5i7fC5XNbgq7ShZb8kSaN062ZFt6FBLJEmSJEmSMkVGFEkxRu4afRfd
+mnejUoWMGmRV7syeDU2bQqNGyQLbVVyqSpIkSZKkjJERRdLwL4azaNUi2h/bPu0oWW3KFDj1VLjh
+hmSB7QoZ8a9LkiRJkiRtUO6H78QYuWvUXXRv3p2KFSqmHSdrjRwJ7dtDz55wySVpp5EkSZIkSSWh
+3I8ZeWvGW6xct5KLj7k47ShZ68UX4fLL4ZVXLJEkSZIkScpk5XpE0oa1ke5ucTcVQrnvxMqdGOGh
+h5JRSCNHwrHHpp1IkiRJkiSVpHJdJP3rs39REAu4oM4FaUfJOvn58Otfw6hRMH481KiRdiJJkiRJ
+klTStjqMJ4TwbAhhYQhh6mbu6xpCKAghVNvk2B0hhBkhhOkhhNabHG8YQphaeN/fNjleJYTwcuHx
+90IINYsSvCAWOBopJatXJ1PYpk6FsWMtkSRJkiRJyhZFaWD6AG1/eDCEcDDQCpi1ybG6wKVA3cLn
+PB5CCIV3PwFcH2M8AjgihLDhe14PLC48/gjwQFGCD/x0IJUrVubcI88tysNVTJYsgdatoXJlGDIE
+9tor7USSJEmSJKm0bLVIijGOBb7dzF0PA7f/4Nj5wEsxxvUxxq+AXOCkEMIBwO4xxpzCx/UF2hXe
+Pg94rvD2AKDl1jLlF+TTbXQ37mlxDxt7KpW0WbOgaVM4+WR44QWoUiXtRJIkSZIkqTRt15ywEML5
+wNwY40c/uOtAYO4mX88FDtrM8XmFxyn8PAcgxpgHLNt0qtzm9P+4P3tU2YO2tX80UEol5MMP4dRT
+4aabkgW2KzibUJIkSZKkrLPNi22HEHYF/kAyre27w8WWaCvyCvLoPqY7vX7ey9FIpWTECLj8cujV
+Cy6+OO00kiRJkiQpLduza9vhQC1gSmGRUwP4IIRwEslIo4M3eWwNkpFI8wpv//A4hfcdAnwdQqgE
+7BljXLK5F+7evTtTFkxhzfw1VDymIhy2Hem1TZ5/Hrp2hVdfhWbN0k4jSZIkSZJ2xOjRoxk9evR2
+Pz/EGLf+oBBqAa/HGOtt5r4vgYYxxiWFi22/CDQmmbI2AqgdY4whhPeBW4Ac4E3g7zHGISGETkC9
+GGPHEMJlQLsY42WbeZ24Lm8ddXrV4ZnznqF5rebb+zOrCGKEBx+Exx+Ht96CY45JO5EkSZIkSSpu
+IQRijEWe8rXVEUkhhJeA5sA+IYQ5wF0xxj6bPOS7JirG+EkIoT/wCZAHdIobm6pOwD+AXYC3YoxD
+Co8/A/wzhDADWAz8qETaoO+UvtTcq6YlUgnLz4df/QrGjIHx4+Ggg7b+HEmSJEmSlPmKNCKpLAgh
+xJqP1OSFC1/g1ENOTTtOxlq9Gq64ApYuhddegz33TDuRJEmSJEkqKds6Iqlc7b119L5HWyKVoMWL
+4cwzYeed4e23LZEkSZIkSdL3lasi6e4Wd6cdIWN98QU0bQqnnpossF2lStqJJEmSJElSWVOupraV
+l6zlxdy5MHAgDBgAH30E99wDN9+cdipJkiRJklRatnVqm0VSlvnqq6Q4evVV+PxzOPdcuOgiaNUq
+mdImSZIkSZKyh0WSfuTzzzeWR3PmQLt2SXl0+ulQuXLa6SRJkiRJUloskkSM8PHHG8ujxYvhwguT
+8ui006BSpbQTSpIkSZKkssAiKUvFCJMnJ+XRgAGwahX84hdJedSkCVQoV8uqS5IkSZKk0mCRlEUK
+CiAnZ2N5VKHCxvLoxBMhFPmfgSRJkiRJykbbWiQ5yamcyc+H8eOTKWsDB8Luuyfl0WuvQf36lkeS
+JEmSJKnkWCSVA3l5MGZMUh4NGgT77ZeMOho6FOrWTTudJEmSJEnKFhZJZdS6dTByZDJlbfBgOPTQ
+pDwaOxZq1047nSRJkiRJykaukVSGrF4Nw4Yl5dEbbySjjS66KNlxrWbNtNNJkiRJkqRM42Lb5cx/
+/wtvvZWUR0OGwAknJOXRBRfAgQemnU6SJEmSJGUyi6RyYNmyZMTRgAHJ9LUmTZLy6Pzz4Wc/05zX
+nwAACLBJREFUSzudJEmSJEnKFhZJZdSSJclaRwMGJOscNWuW7LZ27rlQrVra6SRJkiRJUjaySCpD
+vvkm2WXt1Vfh/ffhzDOT8ujss2GPPdJOJ0mSJEmSsp1FUspiTEYePfoofPghnHVWMm3trLNgt93S
+TidJkiRJkrTRthZJlUoyTLZ591247TZYvhy6dUtGHu28c9qpJEmSJEmSiodFUjH47DO44w6YOBHu
+vReuvBIqVkw7lSRJkiRJUvGqkHaA8mzBAujYEZo2hZNPTgqlDh0skSRJkiRJUmaySNoOK1ZA9+5w
+zDGw664wfTrcfjvsskvaySRJkiRJkkqORdI2WL8eHn8cjjwSZs6EDz6AHj1gn33STiZJkiRJklTy
+XCOpCGKEgQOTdZBq1YK33oLjj087lSRJkiRJUumySNqKsWOTaWurV0PPntC6ddqJJEmSJEmS0mGR
+tAWffgq//z1MmQJ//jNcfjlUcCKgJEmSJEnKYlYjP/D113DjjdC8OTRrliykfeWVlkiSJEmSJEnW
+I4WWL4c774R69WCvveCzz6BrV9h557STSZIkSZIklQ1ZXyStWwePPZbsxDZ3LkyeDA8+CHvvnXYy
+SZIkSZKksiVr10iKEfr3hz/+EY44AoYNg/r1004lSZIkSZJUdmVlkTR6dLITW34+PPUUtGyZdiJJ
+kiRJkqSyL6uKpGnT4He/S3Zk+8tf4NJLXURbkiRJkiSpqLKiRpk7F667Lhl51Lp1UiS1b2+JJEmS
+JEmStC0yukpZuhTuuAMaNID994fPP4dbb4UqVdJOJkmSJEmSVP5kZJG0di08+miyE9s338CUKXDf
+fbDnnmknkyRJkiRJKr8yao2kggLo1w/uvBPq1oV33oFjj007lSRJkiRJUmbImCJp5MhkJ7aKFaFP
+H2jePO1EkiRJkiRJmaXcF0lTpiQ7seXmJtPXLr4YQkg7lSRJkiRJUuYpt2skzZ4NHTpAmzZw9tnw
+ySdwySWWSJIkSZIkSSWl3BVJ334Lt90Gxx8PhxyS7MR2881QuXLaySRJkiRJkjLbVoukEMKzIYSF
+IYSpmxy7N4QwJYTwYQhhZAjh4E3uuyOEMCOEMD2E0HqT4w1DCFML7/vbJserhBBeLjz+Xgih5pay
+/O//JjuxLVsGU6fCvffCHnts3w8uSZIkSZKkbVOUEUl9gLY/OPZgjLFBjPE4YBDQDSCEUBe4FKhb
++JzHQ/hustkTwPUxxiOAI0IIG77n9cDiwuOPAA9sKcjYsTBmDPTuDQceWLQfUNKOGT16dNoRpKzk
+uSelw3NPSofnnlR+bLVIijGOBb79wbEVm3xZFVhUePt84KUY4/oY41dALnBSCOEAYPcYY07h4/oC
+7Qpvnwc8V3h7ANByS1kGD4a6dbeWWFJx8qIupcNzT0qH556UDs89qfzY7l3bQgh/Aa4CVgONCw8f
+CLy3ycPmAgcB6wtvbzCv8DiFn+cAxBjzQgjLQgjVYoxLtjebJEmSJEmSit92L7YdY/xjjPEQkqlv
+jxZfJEmSJEmSJJVFIca49QeFUAt4PcZYbzP3HQK8FWM8NoTwe4AY418L7xtCsn7SLGBUjLFO4fH2
+QLMYY8fCx3SPMb4XQqgEzI8xVt/M62w9qCRJkiRJkrZJjDFs/VGJ7ZraFkI4IsY4o/DL84HJhbf/
+BbwYQniYZMraEUBOjDGGEJaHEE4CckimxP19k+d0IJkS9wtg5OZec1t+KEmSJEmSJBW/rRZJIYSX
+gObAviGEOSQjjH4eQjgKyAdmAh0BYoyfhBD6A58AeUCnuHHIUyfgH8AuJCOYhhQefwb4ZwhhBrAY
+uKyYfjZJkiRJkiQVoyJNbZMkSZIkSZK2e7Ht0hJCaBtCmB5CmBFC+F3aeaRsEUL4KoTwUQhhcggh
+J+08UiYLITwbQlgYQpi6ybFqIYThIYTPQwjDQgh7pZlRykRbOPe6hxDmFl7/JocQ2qaZUcpEIYSD
+QwijQggfhxCmhRBuKTzutU8qQT9x7m3Tta9Mj0gKIVQEPgPOBOYBE4D2McZPUw0mZYEQwpdAwxjj
+krSzSJkuhHAasBLou2FjixDCg8CiGOODhW+k7B1j/H2aOaVMs4VzrxuwIsb4cKrhpAwWQtgf2D/G
++GEIoSrwAdAOuBavfVKJ+Ylz7xK24dpX1kckNQZyY4xfxRjXA/1IFveWVDpc5F4qBTHGscC3Pzh8
+HvBc4e3nSC7ykorRFs498PonlagY44IY44eFt1cCn5Js1uS1TypBP3HuwTZc+8p6kXQQMGeTr+ey
+8YeUVLIiMCKEMDGEcEPaYaQstF+McWHh7YXAfmmGkbLMzSGEKSGEZ5xaI5WsEEIt4Hjgfbz2SaVm
+k3PvvcJDRb72lfUiqezOu5My36kxxuOBs4DOhcP/JaWgcAdUr4lS6XgCOBQ4DpgP9Eg3jpS5CqfW
+DABujTGu2PQ+r31SySk8914lOfdWso3XvrJeJM0DDt7k64NJRiVJKmExxvmFn/8DvEYy1VRS6VlY
+OI+dEMIBwDcp55GyQozxm1gIeBqvf1KJCCHsRFIi/TPGOKjwsNc+qYRtcu49v+Hc29ZrX1kvkiYC
+R4QQaoUQKgOXAv9KOZOU8UIIu4YQdi+8vRvQGpj608+SVMz+BXQovN0BGPQTj5VUTAr/eN3gArz+
+ScUuhBCAZ4BPYoyPbnKX1z6pBG3p3NvWa1+Z3rUNIIRwFvAoUBF4JsZ4f8qRpIwXQjiUZBQSQCXg
+Bc89qeSEEF4CmgP7kqwJcRcwGOgPHAJ8BVwSY1yaVkYpE23m3OsGtCAZ2h+BL4GbNlmzRVIxCCE0
+Bf4P+IiN09fuAHLw2ieVmC2ce38A2rMN174yXyRJkiRJkiSpbCjrU9skSZIkSZJURlgkSZIkSZIk
+qUgskiRJkiRJklQkFkmSJEmSJEkqEoskSZIkSZIkFYlFkiRJkiRJkorEIkmSJEmSJElFYpEkSZIk
+SZKkIvn/UrNrjt830h4AAAAASUVORK5CYII=
+"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="FTS---Experimento-com-o-dataset-TAIEX">FTS - Experimento com o dataset TAIEX<a class="anchor-link" href="#FTS---Experimento-com-o-dataset-TAIEX">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[298]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">fts2</span><span class="o">=</span> <span class="n">SelecaoSimples_MenorRMSE</span><span class="p">(</span><span class="n">taiexsample</span><span class="p">,[</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">35</span><span class="p">],</span><span class="n">FirstOrderFTS</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -3031,10 +3549,10 @@ wggAAIAVWQEAAACsyAoAAABgJWATOQ4SGFhwAAAAAElFTkSuQmCC
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[194]:</div>
+<div class="prompt input_prompt">In&nbsp;[299]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="nb">print</span><span class="p">(</span><span class="n">best2</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span class="nb">print</span><span class="p">(</span><span class="n">fts2</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -3073,10 +3591,10 @@ A10 -&gt; A9,A14,A11,A10
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[195]:</div>
+<div class="prompt input_prompt">In&nbsp;[301]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="n">pred2</span> <span class="o">=</span> <span class="n">best2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">taiexsample</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span class="n">fts2p</span> <span class="o">=</span> <span class="n">fts2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">taiexsample</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -3828,7 +4346,7 @@ REQiUvJIREREREREREQiUvJIREREREREREQi+j8QqV6JDk7iWwAAAABJRU5ErkJggg==
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Weighted-Fuzzy-Time-Series">Weighted Fuzzy Time Series<a class="anchor-link" href="#Weighted-Fuzzy-Time-Series">&#182;</a></h1><p>O trabalho de \cite{yu2005weighted} propõe um modelo  - as \textit{Weighted Fuzzy Time Series} -  em que os grupos de regras permitem repetições no consequente e tenham ponderação monotonicamente crescente, baseado na ordem cronológica dos termos no consequente. Nesse modelo as FLRG's permitem a repetição de conjuntos no consequente das regras, e os conjuntos devem ser apresentados em ordem cronológica.</p>
-
+<h2 id="WFTS---C&#243;digo-Fonte">WFTS - C&#243;digo Fonte<a class="anchor-link" href="#WFTS---C&#243;digo-Fonte">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -3917,12 +4435,21 @@ REQiUvJIREREREREREQiUvJIREREREREREQi+j8QqV6JDk7iWwAAAABJRU5ErkJggg==
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="WFTS---Experimento-com-o-dataset-Enrollments">WFTS - Experimento com o dataset Enrollments<a class="anchor-link" href="#WFTS---Experimento-com-o-dataset-Enrollments">&#182;</a></h2>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[198]:</div>
+<div class="prompt input_prompt">In&nbsp;[304]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="n">best</span> <span class="o">=</span> <span class="n">SelecaoSimples_MenorRMSE</span><span class="p">(</span><span class="n">enrollments</span><span class="p">[</span><span class="s">&quot;Enrollments&quot;</span><span class="p">],[</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">14</span><span class="p">],</span> <span class="n">WeightedFTS</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span class="n">wfts1</span> <span class="o">=</span> <span class="n">SelecaoSimples_MenorRMSE</span><span class="p">(</span><span class="n">enrollments</span><span class="p">[</span><span class="s">&quot;Enrollments&quot;</span><span class="p">],[</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">14</span><span class="p">],</span> <span class="n">WeightedFTS</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -4789,10 +5316,10 @@ IIYkSZIkSZoI/wBCpUA21vn7KQAAAABJRU5ErkJggg==
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[199]:</div>
+<div class="prompt input_prompt">In&nbsp;[305]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="nb">print</span><span class="p">(</span><span class="n">best</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span class="nb">print</span><span class="p">(</span><span class="n">wfts1</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -4824,11 +5351,11 @@ A1 -&gt; A1(0.166666666667),A2(0.333333333333),A7(0.5)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[200]:</div>
+<div class="prompt input_prompt">In&nbsp;[306]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="c">#fts.predict(15000)</span>
-<span class="n">pred1</span> <span class="o">=</span> <span class="n">best</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">enrollments</span><span class="p">[</span><span class="s">&quot;Enrollments&quot;</span><span class="p">])</span>
+<span class="n">wfts1p</span> <span class="o">=</span> <span class="n">wfts1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">enrollments</span><span class="p">[</span><span class="s">&quot;Enrollments&quot;</span><span class="p">])</span>
 </pre></div>
 
 </div>
@@ -5364,12 +5891,21 @@ uumlRwAAAABJRU5ErkJggg==
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="WFTS---Experimento-com-o-dataset-TAIEX">WFTS - Experimento com o dataset TAIEX<a class="anchor-link" href="#WFTS---Experimento-com-o-dataset-TAIEX">&#182;</a></h2>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[201]:</div>
+<div class="prompt input_prompt">In&nbsp;[307]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="n">best2</span> <span class="o">=</span> <span class="n">SelecaoSimples_MenorRMSE</span><span class="p">(</span><span class="n">taiexsample</span><span class="p">,[</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">25</span><span class="p">],</span> <span class="n">WeightedFTS</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span class="n">wfts2</span> <span class="o">=</span> <span class="n">SelecaoSimples_MenorRMSE</span><span class="p">(</span><span class="n">taiexsample</span><span class="p">,[</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">25</span><span class="p">],</span> <span class="n">WeightedFTS</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -6162,10 +6698,10 @@ JEmqKf8fYE+avLYq4WIAAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[176]:</div>
+<div class="prompt input_prompt">In&nbsp;[308]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="nb">print</span><span class="p">(</span><span class="n">best2</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span class="nb">print</span><span class="p">(</span><span class="n">wfts2</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -6214,10 +6750,10 @@ A10 -&gt; A10(0.0222222222222),A10(0.0444444444444),A11(0.0666666666667),A10(0.0
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[202]:</div>
+<div class="prompt input_prompt">In&nbsp;[309]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="n">pred2</span> <span class="o">=</span> <span class="n">best2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">taiexsample</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span class="n">wfts2p</span> <span class="o">=</span> <span class="n">wfts2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">taiexsample</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -6987,7 +7523,7 @@ RERERETcUvBIRERERERERETcUvBIRERERERERETc+n/sUQwMVN5rvQAAAABJRU5ErkJggg==
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Improved-Weighted-Fuzzy-Time-Series">Improved Weighted Fuzzy Time Series<a class="anchor-link" href="#Improved-Weighted-Fuzzy-Time-Series">&#182;</a></h1><p>Os trabalhos de \cite{ismail2011enrollment} e \cite{efendi2013improved} modificam a forma como os pesos são assinalados às regras no modelo de \cite{yu2005weighted}. A diferença mais importante é que a quantidade de recorrências de cada regra é que vai determinar o seu peso, para uma regra $A_i \rightarrow A_j,A_k$, tendo $A_i \rightarrow A_j$ $n_1$ recorrências e $A_i \rightarrow A_k$ $n_2$ recorrências, o valor de cada peso será $w_k = n_k / \sum_{i=1..n} n_i$, sendo $n$ o número de regras.</p>
-
+<h2 id="IWFTS---C&#243;digo-Fonte">IWFTS - C&#243;digo Fonte<a class="anchor-link" href="#IWFTS---C&#243;digo-Fonte">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -7070,16 +7606,25 @@ RERERETcUvBIRERERERERETcUvBIRERERERERETc+n/sUQwMVN5rvQAAAABJRU5ErkJggg==
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="IWFTS---Experimento-com-o-dataset-Enrollments">IWFTS - Experimento com o dataset Enrollments<a class="anchor-link" href="#IWFTS---Experimento-com-o-dataset-Enrollments">&#182;</a></h2>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[285]:</div>
+<div class="prompt input_prompt">In&nbsp;[310]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="c">#fts = ImprovedWeightedFTS()</span>
 <span class="c">#sets = GridPartitionerTrimf(enrollments[&quot;Enrollments&quot;],8)</span>
 <span class="c">#fts.learn(enrollments[&quot;Enrollments&quot;],sets)</span>
 
-<span class="n">best</span> <span class="o">=</span> <span class="n">SelecaoSimples_MenorRMSE</span><span class="p">(</span><span class="n">enrollments</span><span class="p">[</span><span class="s">&quot;Enrollments&quot;</span><span class="p">],[</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">14</span><span class="p">],</span> <span class="n">ImprovedWeightedFTS</span><span class="p">)</span>
+<span class="n">iwfts1</span> <span class="o">=</span> <span class="n">SelecaoSimples_MenorRMSE</span><span class="p">(</span><span class="n">enrollments</span><span class="p">[</span><span class="s">&quot;Enrollments&quot;</span><span class="p">],[</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">14</span><span class="p">],</span> <span class="n">ImprovedWeightedFTS</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -7919,10 +8464,10 @@ CoYYkiRJkiSpKvx/1h1xeVaPbCQAAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[286]:</div>
+<div class="prompt input_prompt">In&nbsp;[311]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="nb">print</span><span class="p">(</span><span class="n">best</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span class="nb">print</span><span class="p">(</span><span class="n">iwfts1</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -7954,11 +8499,11 @@ A1 -&gt; A2(0.3333333333333333),A7(0.3333333333333333),A1(0.3333333333333333)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[287]:</div>
+<div class="prompt input_prompt">In&nbsp;[312]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="c">#np.arange(0.0,2.0)</span>
-<span class="n">tmp</span> <span class="o">=</span> <span class="n">best</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">enrollments</span><span class="p">[</span><span class="s">&quot;Enrollments&quot;</span><span class="p">])</span>
+<span class="n">iwfts1p</span> <span class="o">=</span> <span class="n">iwfts1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">enrollments</span><span class="p">[</span><span class="s">&quot;Enrollments&quot;</span><span class="p">])</span>
 </pre></div>
 
 </div>
@@ -8462,12 +9007,21 @@ kqQCMUiSJEmSJElSgfx/vSbWMviNJcgAAAAASUVORK5CYII=
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="IWFTS---Experimento-com-o-dataset-TAIEX">IWFTS - Experimento com o dataset TAIEX<a class="anchor-link" href="#IWFTS---Experimento-com-o-dataset-TAIEX">&#182;</a></h2>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[288]:</div>
+<div class="prompt input_prompt">In&nbsp;[313]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="n">best2</span> <span class="o">=</span> <span class="n">SelecaoSimples_MenorRMSE</span><span class="p">(</span><span class="n">taiexsample</span><span class="p">,[</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">25</span><span class="p">],</span> <span class="n">ImprovedWeightedFTS</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span class="n">iwfts2</span> <span class="o">=</span> <span class="n">SelecaoSimples_MenorRMSE</span><span class="p">(</span><span class="n">taiexsample</span><span class="p">,[</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">25</span><span class="p">],</span> <span class="n">ImprovedWeightedFTS</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -9239,10 +9793,10 @@ aoqdFZIkSZIkqaYYVkiSJEmSpJpiWCFJkiRJkmqKYYUkSZIkSaophhWSJEmSJKmm/P9RZiFVbMIW
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[289]:</div>
+<div class="prompt input_prompt">In&nbsp;[314]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="nb">print</span><span class="p">(</span><span class="n">best2</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span class="nb">print</span><span class="p">(</span><span class="n">iwfts2</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -9281,10 +9835,10 @@ A10 -&gt; A9(0.2857142857142857),A14(0.14285714285714285),A11(0.1428571428571428
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[290]:</div>
+<div class="prompt input_prompt">In&nbsp;[315]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="n">pred2</span> <span class="o">=</span> <span class="n">best2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">taiexsample</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span class="n">iwfts2p</span> <span class="o">=</span> <span class="n">iwfts2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">taiexsample</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -10044,7 +10598,25 @@ iIiIiISl4JGIiIiIiIiIiISl4JGIiIiIiIiIiIT1/wGD/1FIEu7fywAAAABJRU5ErkJggg==
 <h1 id="Exponentially-Weighted-Fuzzy-Time-Series">Exponentially Weighted Fuzzy Time Series<a class="anchor-link" href="#Exponentially-Weighted-Fuzzy-Time-Series">&#182;</a></h1><p>O método EWFTS - \textit{Exponentialy Weighted Fuzzy Time Series}, é utilizado em \cite{sadaei2014short}, e contrasta com o crescimento linear dos pesos proposto por \cite{yu2005weighted} modificando-os por um crescimento exponencial. Dada a FLRG $A_i \rightarrow A_1,A_3,...,A_k$, a matriz $M(t) = [m_1, m_2, ...,m_k]$ dos centros de $A_1,A_3,...,A_k$ a matriz de pesos $w(t)$ será definida por um parâmetro $c$, que formará a série exponencial $c^0, c^1, ..., c^{k-1}$ normalizada. O parâmetro $c$ deve ser maior do que zero.</p>
 $$
 w(t) = \left[ \frac{1}{\sum_{h=1}^k c^{h-1}},\frac{c^1}{\sum_{h=1}^k c^{h-1}},...,\frac{c^{k-1}}{\sum_{h=1}^k c^{h-1}} \right]
-$$
+$$<h2 id="EWFTS---C&#243;digo-Fonte">EWFTS - C&#243;digo Fonte<a class="anchor-link" href="#EWFTS---C&#243;digo-Fonte">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="EWFTS---Experimento-com-o-dataset-Enrollments">EWFTS - Experimento com o dataset Enrollments<a class="anchor-link" href="#EWFTS---Experimento-com-o-dataset-Enrollments">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="EWFTS---Experimento-com-o-dataset-TAIEX">EWFTS - Experimento com o dataset TAIEX<a class="anchor-link" href="#EWFTS---Experimento-com-o-dataset-TAIEX">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -10054,7 +10626,7 @@ $$
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="High-Order-Fuzzy-Time-Series">High Order Fuzzy Time Series<a class="anchor-link" href="#High-Order-Fuzzy-Time-Series">&#182;</a></h1><p>Essa implementação segue os trabalho de \cite{hwang1998handling} e \cite{chen2014high}</p>
-
+<h2 id="HOFTS---C&#243;digo-Fonte">HOFTS - C&#243;digo Fonte<a class="anchor-link" href="#HOFTS---C&#243;digo-Fonte">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -10074,18 +10646,23 @@ $$
 </div>
 
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre> 
-</pre></div>
-
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="HOFTS---Experimento-com-o-dataset-Enrollments">HOFTS - Experimento com o dataset Enrollments<a class="anchor-link" href="#HOFTS---Experimento-com-o-dataset-Enrollments">&#182;</a></h2>
 </div>
 </div>
 </div>
-
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="EWFTS---Experimento-com-o-dataset-TAIEX">EWFTS - Experimento com o dataset TAIEX<a class="anchor-link" href="#EWFTS---Experimento-com-o-dataset-TAIEX">&#182;</a></h2>
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
@@ -10103,6 +10680,19 @@ $$
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre> 
+</pre></div>
+
+</div>
+</div>
+</div>
+
 </div>
     </div>
   </div>
